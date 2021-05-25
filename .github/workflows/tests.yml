@@ -1,0 +1,22 @@
+name: Tests
+on: push
+jobs:
+  test_downloader:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Check out
+        uses: actions/checkout@v2
+      - name: Setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.9.5"
+      - name: Test
+        run: |
+          rm -r data
+          python downloader.py
+          file_name_places=data/places.csv
+          echo "file_name_places = $file_name_places"
+          test -e $file_name_places
+          file_name_bikes=data/$(date +"%Y")/$(date +"%m")/$(date +"%Y-%m-%d").csv
+          echo "file_name_bikes = $file_name_bikes"
+          test -e $file_name_bikes
