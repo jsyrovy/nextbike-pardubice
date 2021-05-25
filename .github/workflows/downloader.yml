@@ -1,0 +1,32 @@
+name: Downloader
+on:
+  schedule:
+    - cron: "58 3-18 * * *"
+    - cron: "15 4-19 * * *"
+    - cron: "30 4-19 * * *"
+    - cron: "45 4-19 * * *"
+jobs:
+  download:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Check out
+        uses: actions/checkout@v2
+      - name: Setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.9.5"
+      - name: Setup timezone
+        uses: zcong1993/setup-timezone@master
+        with:
+          timezone: Europe/Prague
+      - name: Download
+        run: python downloader.py
+      - name: Save
+        uses: EndBug/add-and-commit@v4
+        with:
+          add: data
+          author_name: downloader
+          author_email: ${{ secrets.AUTHOR_EMAIL }}
+          message: Add data
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
