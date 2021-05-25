@@ -12,7 +12,7 @@ jobs:
           python-version: "3.9.5"
       - name: Test
         run: |
-          rm -r data
+          rm -rf data
           python downloader.py
           file_name_places=data/places.csv
           echo "file_name_places = $file_name_places"
