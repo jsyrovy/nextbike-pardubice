@@ -27,6 +27,9 @@
       type="text/javascript"
     ></script>
     <style>
+      a {
+        text-decoration: none;
+      }
       .ct-label.ct-label.ct-horizontal.ct-end {
         position: relative;
         justify-content: flex-end;
@@ -90,7 +93,7 @@
       </div>
       {% for chart in charts %}
       <div class="row" style="margin-top: 2%">
-        <h4>{{ chart.name }}</h4>
+        <h4 id="{{ chart.uid }}"><a href="#{{ chart.uid }}">{{ chart.name }}</></h4>
         <div class="ct-chart{{ chart.uid }} ct-major-twelfth"></div>
       </div>
       {% endfor %}
