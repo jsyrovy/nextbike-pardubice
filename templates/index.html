@@ -97,7 +97,9 @@
       </div>
       {% for chart in charts %}
       <div class="row chart-row" style="margin-top: 2%">
-        <h4 id="{{ chart.uid }}"><a href="#{{ chart.uid }}">{{ chart.name }}</a></h4>
+        <h4 id="{{ chart.uid }}">
+          <a href="#{{ chart.uid }}">{{ chart.name }}</a>
+        </h4>
         <div class="ct-chart{{ chart.uid }} ct-major-twelfth"></div>
       </div>
       {% endfor %}
