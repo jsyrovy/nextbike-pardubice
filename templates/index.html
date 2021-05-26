@@ -1,0 +1,122 @@
+<!-- Generated on {{ dt }} -->
+<!DOCTYPE html>
+<html lang="cs">
+  <head>
+    <meta charset="utf-8" />
+    <title>Nextbike Pardubice</title>
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Raleway:400,300,600"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/chartist/0.11.4/chartist.min.css"
+      rel="stylesheet"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/chartist/0.11.4/chartist.min.js"
+      type="text/javascript"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/chartist-plugin-tooltips@0.0.17/dist/chartist-plugin-tooltip.min.js"
+      type="text/javascript"
+    ></script>
+    <style>
+      .ct-label.ct-label.ct-horizontal.ct-end {
+        position: relative;
+        justify-content: flex-end;
+        text-align: right;
+        transform-origin: 100% 0;
+        transform: translate(-100%) rotate(-45deg);
+        white-space: nowrap;
+      }
+      .ct-label {
+        font-size: 1.3rem;
+      }
+      .ct-series-a .ct-line,
+      .ct-series-a .ct-point {
+        stroke: #0544d3;
+      }
+      .chartist-tooltip {
+        position: absolute;
+        display: inline-block;
+        opacity: 0;
+        min-width: 5em;
+        padding: 0.5em;
+        background: #453d3f;
+        color: #ffffff;
+        font-family: Raleway, Helvetica, Arial, sans-serif;
+        font-weight: 700;
+        text-align: center;
+        pointer-events: none;
+        z-index: 1;
+        -webkit-transition: opacity 0.2s linear;
+        -moz-transition: opacity 0.2s linear;
+        -o-transition: opacity 0.2s linear;
+        transition: opacity 0.2s linear;
+      }
+      .chartist-tooltip:before {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        margin-left: -15px;
+        border: 15px solid transparent;
+        border-top-color: #453d3f;
+      }
+      .chartist-tooltip.tooltip-show {
+        opacity: 1;
+      }
+      .ct-area,
+      .ct-line {
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="twelve column" style="margin-top: 5%">
+          <h3>Nextbike Pardubice</h3>
+          <h5>Dostupnost za posledních 12 hodin</h5>
+        </div>
+      </div>
+      {% for chart in charts %}
+      <div class="row" style="margin-top: 2%">
+        <h4>{{ chart.name }}</h4>
+        <div class="ct-chart{{ chart.uid }} ct-major-twelfth"></div>
+      </div>
+      {% endfor %}
+    </div>
+    <script>
+      var options = {
+          lineSmooth: true,
+          showPoint: true,
+          axisX: {
+              showGrid: false,
+              showLabel: true
+          },
+          axisY: {
+              showGrid: true,
+              showLabel: true,
+              onlyInteger: true,
+              low: 0,
+              high:{{highest_value}}
+          },
+          plugins: [
+              Chartist.plugins.tooltip()
+          ]
+      }
+      {% for chart in charts %}
+          new Chartist.Line('.ct-chart{{ chart.uid }}', {labels: {{ chart.labels | safe }}, series: [{{ chart.serie }}]}, options);
+      {% endfor %}
+    </script>
+  </body>
+</html>

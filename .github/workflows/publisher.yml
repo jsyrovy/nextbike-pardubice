@@ -1,0 +1,32 @@
+name: Publisher
+on:
+  schedule:
+    - cron: "0 * * * *"
+  workflow_dispatch:
+jobs:
+  publish:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Check out
+        uses: actions/checkout@v2
+      - name: Setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.9.5"
+      - name: Install requirements
+        run: pip install -r publisher_requirements.txt
+      - name: Setup timezone
+        uses: zcong1993/setup-timezone@master
+        with:
+          timezone: Europe/Prague
+      - name: Publish
+        run: python publisher.py
+      - name: Save
+        uses: EndBug/add-and-commit@v4
+        with:
+          add: index.html
+          author_name: publisher
+          author_email: ${{ secrets.AUTHOR_EMAIL }}
+          message: Publish page
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
