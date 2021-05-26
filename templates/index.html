@@ -30,6 +30,9 @@
       a {
         text-decoration: none;
       }
+      .hidden {
+        display: none;
+      }
       .ct-label.ct-label.ct-horizontal.ct-end {
         position: relative;
         justify-content: flex-end;
@@ -92,7 +95,7 @@
         </div>
       </div>
       {% for chart in charts %}
-      <div class="row" style="margin-top: 2%">
+      <div class="row chart-row" style="margin-top: 2%">
         <h4 id="{{ chart.uid }}"><a href="#{{ chart.uid }}">{{ chart.name }}</a></h4>
         <div class="ct-chart{{ chart.uid }} ct-major-twelfth"></div>
       </div>
@@ -100,26 +103,55 @@
     </div>
     <script>
       var options = {
-          lineSmooth: true,
-          showPoint: true,
-          axisX: {
-              showGrid: false,
-              showLabel: true
-          },
-          axisY: {
-              showGrid: true,
-              showLabel: true,
-              onlyInteger: true,
-              low: 0,
-              high:{{highest_value}}
-          },
-          plugins: [
-              Chartist.plugins.tooltip()
-          ]
+        lineSmooth: true,
+        showPoint: true,
+        axisX: {
+          showGrid: false,
+          showLabel: true
+        },
+        axisY: {
+          showGrid: true,
+          showLabel: true,
+          onlyInteger: true,
+          low: 0,
+          high:{{highest_value}}
+        },
+        plugins: [
+          Chartist.plugins.tooltip()
+        ]
       }
       {% for chart in charts %}
-          new Chartist.Line('.ct-chart{{ chart.uid }}', {labels: {{ chart.labels | safe }}, series: [{{ chart.serie }}]}, options);
+        new Chartist.Line('.ct-chart{{ chart.uid }}', {labels: {{ chart.labels | safe }}, series: [{{ chart.serie }}]}, options);
       {% endfor %}
+
+      const chartNamePrefix = "ct-chart";
+      const visible = "visible";
+      const hidden = "hidden";
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      const uids = urlParams.get("uids")?.split(",");
+      const rows = document.querySelectorAll(".chart-row");
+      const charts = document.querySelectorAll(".ct-major-twelfth");
+
+      if (typeof uids !== "undefined") {
+        rows.forEach((row) => {
+          row.childNodes.forEach((child) => {
+            if (child.classList?.contains("ct-major-twelfth")) {
+              uids.forEach((uid) => {
+                if (child.classList.contains(chartNamePrefix + uid)) {
+                  row.classList.add(visible);
+                }
+              });
+            }
+          });
+        });
+
+        rows.forEach((row) => {
+          if (!row.classList.contains(visible)) {
+            row.classList.add(hidden);
+          }
+        });
+      }
     </script>
   </body>
 </html>
