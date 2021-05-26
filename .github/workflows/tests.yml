@@ -33,6 +33,6 @@ jobs:
         run: pip install -r publisher_requirements.txt
       - name: Test
         run: |
-          rm index.html
+          rm -f index.html
           python publisher.py
           test -e index.html
