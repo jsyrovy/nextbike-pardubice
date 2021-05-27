@@ -31,9 +31,11 @@
       a {
         text-decoration: none;
       }
+
       .hidden {
         display: none;
       }
+
       .ct-label.ct-label.ct-horizontal.ct-end {
         position: relative;
         justify-content: flex-end;
@@ -42,13 +44,16 @@
         transform: translate(-100%) rotate(-45deg);
         white-space: nowrap;
       }
+
       .ct-label {
         font-size: 1.3rem;
       }
+
       .ct-series-a .ct-line,
       .ct-series-a .ct-point {
         stroke: #0544d3;
       }
+
       .chartist-tooltip {
         position: absolute;
         display: inline-block;
@@ -67,6 +72,7 @@
         -o-transition: opacity 0.2s linear;
         transition: opacity 0.2s linear;
       }
+
       .chartist-tooltip:before {
         content: "";
         position: absolute;
@@ -78,9 +84,11 @@
         border: 15px solid transparent;
         border-top-color: #453d3f;
       }
+
       .chartist-tooltip.tooltip-show {
         opacity: 1;
       }
+
       .ct-area,
       .ct-line {
         pointer-events: none;
@@ -123,8 +131,8 @@
           Chartist.plugins.tooltip()
         ]
       }
-      {% for chart in charts %}
-        new Chartist.Line('.ct-chart{{ chart.uid }}', {labels: {{ chart.labels | safe }}, series: [{{ chart.serie }}]}, options);
+
+      {% for chart in charts %}new Chartist.Line('.ct-chart{{ chart.uid }}', {labels: {{ chart.labels | safe }}, series: [{{ chart.serie }}]}, options);
       {% endfor %}
 
       const chartNamePrefix = "ct-chart";
