@@ -125,7 +125,7 @@
           showLabel: true,
           onlyInteger: true,
           low: 0,
-          high:{{highest_value}}
+          high: {{highest_value}}
         },
         plugins: [
           Chartist.plugins.tooltip()
@@ -134,35 +134,34 @@
 
       {% for chart in charts %}new Chartist.Line('.ct-chart{{ chart.uid }}', {labels: {{ chart.labels | safe }}, series: [{{ chart.serie }}]}, options);
       {% endfor %}
+      function filterPlaces() {
+        const chartNamePrefix = "ct-chart";
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const uids = urlParams.get("uids")?.split(",");
+        const rows = document.querySelectorAll(".chart-row");
 
-      const chartNamePrefix = "ct-chart";
-      const visible = "visible";
-      const hidden = "hidden";
-      const queryString = window.location.search;
-      const urlParams = new URLSearchParams(queryString);
-      const uids = urlParams.get("uids")?.split(",");
-      const rows = document.querySelectorAll(".chart-row");
-      const charts = document.querySelectorAll(".ct-major-twelfth");
+        if (typeof uids === "undefined") {
+          return;
+        }
 
-      if (typeof uids !== "undefined") {
         rows.forEach((row) => {
           row.childNodes.forEach((child) => {
             if (child.classList?.contains("ct-major-twelfth")) {
-              uids.forEach((uid) => {
-                if (child.classList.contains(chartNamePrefix + uid)) {
-                  row.classList.add(visible);
+              child.classList.forEach((cls) => {
+                if (
+                  cls.includes(chartNamePrefix) &&
+                  !uids.includes(cls.replace(chartNamePrefix, ""))
+                ) {
+                  row.classList.add("hidden");
                 }
               });
             }
           });
         });
-
-        rows.forEach((row) => {
-          if (!row.classList.contains(visible)) {
-            row.classList.add(hidden);
-          }
-        });
       }
+
+      filterPlaces();
     </script>
   </body>
 </html>
