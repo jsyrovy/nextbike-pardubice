@@ -13,6 +13,11 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: "3.9.5"
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ hashFiles('publisher_requirements.txt') }}
       - name: Install requirements
         run: pip install -r publisher_requirements.txt
       - name: Setup timezone
