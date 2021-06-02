@@ -30,7 +30,7 @@ jobs:
       - name: Save
         uses: EndBug/add-and-commit@v4
         with:
-          add: index.html
+          add: index.html 24h.html
           author_name: publisher
           author_email: ${{ secrets.AUTHOR_EMAIL }}
           message: Publish page
