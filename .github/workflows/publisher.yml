@@ -1,7 +1,8 @@
 name: Publisher
 on:
   schedule:
-    - cron: "0 * * * *"
+    - cron: "5 * * * *"
+    - cron: "35 * * * *"
   workflow_dispatch:
 jobs:
   publish:
