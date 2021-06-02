@@ -29,7 +29,7 @@ def main() -> None:
         load_places(conn)
         load_bikes_states(conn)
 
-        charts = get_charts(conn.cursor())
+        charts = get_charts(get_records(conn.cursor()))
         highest_value = max([c.highest_value for c in charts])
         publish_page(charts, highest_value)
 
@@ -54,9 +54,8 @@ def load_csv(conn: sqlite3.Connection, path: pathlib.Path, table_name) -> None:
     df.to_sql(table_name, conn, if_exists="append")
 
 
-def get_charts(cursor: sqlite3.Cursor) -> list[Chart]:
+def get_charts(records: list[Record]) -> list[Chart]:
     charts = []
-    records = get_records(cursor)
 
     for record in sorted(set([r.name for r in records])):
         charts.append(
@@ -84,8 +83,8 @@ def get_records(cursor: sqlite3.Cursor) -> list[Record]:
     return [Record(int(r[0]), r[1], r[2], int(r[3])) for r in cursor.fetchall()]
 
 
-def publish_page(charts: list[Chart], highest_value: int) -> None:
-    page = pathlib.Path("index.html")
+def publish_page(charts: list[Chart], highest_value: int, path="index.html") -> None:
+    page = pathlib.Path(path)
     page.write_text(
         get_template().render(
             charts=charts,
