@@ -6,6 +6,8 @@ import sqlite3
 import jinja2
 import pandas
 
+INDEX_TEMPLATE= "index.html"
+
 
 @dataclasses.dataclass
 class Record:
@@ -117,10 +119,10 @@ def publish_page(charts: list[Chart], highest_value: int, title: str, path="inde
 
 def get_template() -> jinja2.Template:
     env = jinja2.Environment(
-        loader=jinja2.PackageLoader("publisher", "templates"),
+        loader=jinja2.DictLoader({INDEX_TEMPLATE: "templates/index.html"}),
         autoescape=jinja2.select_autoescape(["html", "xml"]),
     )
-    return env.get_template("index.html")
+    return env.get_template(INDEX_TEMPLATE)
 
 
 if __name__ == "__main__":
