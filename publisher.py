@@ -119,10 +119,17 @@ def publish_page(charts: list[Chart], highest_value: int, title: str, path="inde
 
 def get_template() -> jinja2.Template:
     env = jinja2.Environment(
-        loader=jinja2.DictLoader({INDEX_TEMPLATE: "templates/index.html"}),
+        loader=jinja2.DictLoader(
+            {INDEX_TEMPLATE: get_template_content(INDEX_TEMPLATE)}
+        ),
         autoescape=jinja2.select_autoescape(["html", "xml"]),
     )
     return env.get_template(INDEX_TEMPLATE)
+
+
+def get_template_content(template) -> str:
+    with open(f"templates/{template}", "r") as f:
+        return f.read()
 
 
 if __name__ == "__main__":
