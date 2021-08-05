@@ -49,3 +49,4 @@ jobs:
           rm -f index.html
           python publisher.py
           test -e index.html
+          grep "Nextbike Pardubice" index.html
