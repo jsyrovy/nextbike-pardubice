@@ -127,7 +127,7 @@ def get_template() -> jinja2.Template:
     return env.get_template(INDEX_TEMPLATE)
 
 
-def get_template_content(template) -> str:
+def get_template_content(template: str) -> str:
     with open(f"templates/{template}", "r") as f:
         return f.read()
 
