@@ -2,7 +2,7 @@ name: Tests
 on: push
 jobs:
   pytest:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - name: Check out
         uses: actions/checkout@v2
@@ -15,7 +15,7 @@ jobs:
       - name: Test
         run: pytest
   test_downloader:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - name: Check out
         uses: actions/checkout@v2
@@ -34,7 +34,7 @@ jobs:
           echo "file_name_bikes = $file_name_bikes"
           test -e $file_name_bikes
   test_publisher:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - name: Check out
         uses: actions/checkout@v2
