@@ -7,9 +7,9 @@ jobs:
       - name: Check out
         uses: actions/checkout@v2
       - name: Setup python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
-          python-version: "3.9.5"
+          python-version: "3.11"
       - name: Install requirements
         run: pip install -r test_requirements.txt
       - name: Test
@@ -20,9 +20,9 @@ jobs:
       - name: Check out
         uses: actions/checkout@v2
       - name: Setup python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
-          python-version: "3.9.5"
+          python-version: "3.11"
       - name: Test
         run: |
           rm -rf data
@@ -39,9 +39,9 @@ jobs:
       - name: Check out
         uses: actions/checkout@v2
       - name: Setup python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
-          python-version: "3.9.5"
+          python-version: "3.11
       - name: Install requirements
         run: pip install -r publisher_requirements.txt
       - name: Test
