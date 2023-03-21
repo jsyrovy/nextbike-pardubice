@@ -44,7 +44,7 @@ def main() -> None:
 
 def load_places(conn: sqlite3.Connection) -> None:
     path = pathlib.Path("data/places.csv")
-    load_csv(conn, path, "places")
+    load_csv(conn, path, "places", separator=";")
     print(f"Places were loaded.")
 
 
@@ -57,8 +57,8 @@ def load_bikes_states(conn: sqlite3.Connection) -> None:
     print(f"Bike states were loaded.")
 
 
-def load_csv(conn: sqlite3.Connection, path: pathlib.Path, table_name) -> None:
-    df = pandas.read_csv(path, sep=",")
+def load_csv(conn: sqlite3.Connection, path: pathlib.Path, table_name: str, separator: str = ",") -> None:
+    df = pandas.read_csv(path, sep=separator)
     df.to_sql(table_name, conn, if_exists="append")
 
 

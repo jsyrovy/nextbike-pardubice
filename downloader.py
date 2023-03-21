@@ -72,11 +72,11 @@ def save_places(places: list[Place]) -> None:
 
     content = path.read_text(encoding=ENCODING) if path.exists() else ""
 
-    lines = [f"{p.uid},{p.name}\n" for p in places if str(p.uid) not in content]
+    lines = [f"{p.uid};{p.name}\n" for p in places if str(p.uid) not in content]
     count = len(lines)
 
     if not path.exists():
-        lines.insert(0, "uid,name\n")
+        lines.insert(0, "uid;name\n")
 
     with path.open("a", encoding=ENCODING) as f:
         f.writelines(lines)
