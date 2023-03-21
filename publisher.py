@@ -6,7 +6,7 @@ import sqlite3
 import jinja2
 import pandas
 
-INDEX_TEMPLATE= "index.html"
+INDEX_TEMPLATE = "index.html"
 
 
 @dataclasses.dataclass
@@ -57,7 +57,9 @@ def load_bikes_states(conn: sqlite3.Connection) -> None:
     print(f"Bike states were loaded.")
 
 
-def load_csv(conn: sqlite3.Connection, path: pathlib.Path, table_name: str, separator: str = ",") -> None:
+def load_csv(
+    conn: sqlite3.Connection, path: pathlib.Path, table_name: str, separator: str = ","
+) -> None:
     df = pandas.read_csv(path, sep=separator)
     df.to_sql(table_name, conn, if_exists="append")
 
@@ -97,13 +99,15 @@ def get_grouped_records(cursor: sqlite3.Cursor, hours: int) -> list[Record]:
         "FROM bike_states bs "
         "JOIN places p ON bs.uid = p.uid "
         f"WHERE bs.dt >= '{datetime.datetime.now() - datetime.timedelta(hours=hours)}'"
-        "GROUP BY p.uid, p.name, STRFTIME('%d %H', dt)" 
+        "GROUP BY p.uid, p.name, STRFTIME('%d %H', dt)"
         "ORDER BY p.name, bs.dt"
     )
     return [Record(int(r[0]), r[1], r[2], int(r[3])) for r in cursor.fetchall()]
 
 
-def publish_page(charts: list[Chart], highest_value: int, title: str, path="index.html") -> None:
+def publish_page(
+    charts: list[Chart], highest_value: int, title: str, path="index.html"
+) -> None:
     page = pathlib.Path(path)
     page.write_text(
         get_template().render(

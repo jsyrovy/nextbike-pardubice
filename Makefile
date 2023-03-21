@@ -4,14 +4,7 @@ PYTHON=venv/bin/python3
 	help
 
 help:
-	@echo "make help"
-	@echo "  show help"
-	@echo "make init"
-	@echo "  create venv and install requirements"
-	@echo "make download"
-	@echo "  run downloader"
-	@echo "make publish"
-	@echo "  run publisher"
+	@echo "I don't know what you want me to do."
 
 init:
 	python3 -m venv venv
@@ -23,3 +16,6 @@ download:
 
 publish:
 	${PYTHON} publisher.py
+
+black:
+	${PYTHON} -m black .

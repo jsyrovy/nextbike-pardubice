@@ -1,9 +1,9 @@
 import dataclasses
 import datetime
+import json
 import pathlib
 import urllib.error
 import urllib.request
-import json
 
 ENCODING = "UTF-8"
 COUNTRY = "cz"

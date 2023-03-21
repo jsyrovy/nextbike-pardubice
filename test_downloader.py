@@ -10,14 +10,10 @@ def test_get_places():
                     {
                         "name": "Pardubice",
                         "places": [
-                            {
-                                "uid": 1,
-                                "name": "Name",
-                                "bikes_available_to_rent": 2
-                            }
-                        ]
+                            {"uid": 1, "name": "Name", "bikes_available_to_rent": 2}
+                        ],
                     }
-                ]
+                ],
             }
         ]
     }
