@@ -2,6 +2,7 @@ import dataclasses
 import datetime
 import json
 import pathlib
+import time
 import urllib.error
 import urllib.request
 
@@ -19,19 +20,27 @@ class Place:
 
 
 def main() -> None:
-    data = get_data()
+    data = try_get_data()
     places = get_places(data)
     save_places(places)
     save_bike_states(places)
 
 
 def get_data() -> dict:
-    try:
-        request = urllib.request.urlopen(URL)
-        return json.load(request)
-    except (urllib.error.HTTPError, urllib.error.URLError):
-        print(f"Cannot connect to '{URL}'.")
-        exit(1)
+    request = urllib.request.urlopen(URL)
+    return json.load(request)
+
+
+def try_get_data() -> dict:
+    for _ in range(3):
+        try:
+            return get_data()
+        except (urllib.error.HTTPError, urllib.error.URLError) as e:
+            print(e)
+            time.sleep(5)
+
+    print(f"Cannot connect to '{URL}'.")
+    exit(1)
 
 
 def get_places(data: dict) -> list[Place]:
