@@ -45,7 +45,7 @@ def main() -> None:
 def load_places(conn: sqlite3.Connection) -> None:
     path = pathlib.Path("data/places.csv")
     load_csv(conn, path, "places", separator=";")
-    print(f"Places were loaded.")
+    print("Places were loaded.")
 
 
 def load_bikes_states(conn: sqlite3.Connection) -> None:
@@ -54,7 +54,7 @@ def load_bikes_states(conn: sqlite3.Connection) -> None:
     for path in paths:
         load_csv(conn, path, "bike_states")
 
-    print(f"Bike states were loaded.")
+    print("Bike states were loaded.")
 
 
 def load_csv(

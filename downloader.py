@@ -74,7 +74,7 @@ def get_places(data: dict) -> list[Place]:
 
 
 def save_places(places: list[Place]) -> None:
-    path = pathlib.Path(f"data/places.csv")
+    path = pathlib.Path("data/places.csv")
 
     if not path.parent.exists():
         path.parent.mkdir(parents=True)
