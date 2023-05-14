@@ -10,8 +10,8 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: "3.11"
-      - name: Install requirements
-        run: pip install -r dev_requirements.txt
+      - name: Create venv
+        run: make init
       - name: Test
         run: make test
   test_downloader:
