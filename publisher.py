@@ -33,12 +33,18 @@ def main() -> None:
 
         charts = get_charts(get_records(conn.cursor()))
         highest_value = max([c.highest_value for c in charts])
-        title = "Dostupnost za posledních 12 hodin<br><a href='24h.html'>Zobrazit posledních 24 hodin</a>"
+        title = (
+            "Dostupnost za posledních 12 hodin<br>"
+            "<a href='24h.html'>Zobrazit posledních 24 hodin</a>"
+        )
         publish_page(charts, highest_value, title)
 
         charts_24h = get_charts(get_grouped_records(conn.cursor(), 24))
         highest_value_24h = max([c.highest_value for c in charts_24h])
-        title_24h = "Dostupnost za posledních 24 hodin<br><a href='index.html'>Zobrazit posledních 12 hodin</a>"
+        title_24h = (
+            "Dostupnost za posledních 24 hodin<br>"
+            "<a href='index.html'>Zobrazit posledních 12 hodin</a>"
+        )
         publish_page(charts_24h, highest_value_24h, title_24h, "24h.html")
 
 
@@ -95,7 +101,11 @@ def get_records(cursor: sqlite3.Cursor) -> list[Record]:
 
 def get_grouped_records(cursor: sqlite3.Cursor, hours: int) -> list[Record]:
     cursor.execute(
-        "SELECT p.uid, p.name, STRFTIME('%d %H', dt), ROUND(AVG(bikes_available_to_rent), 0) "
+        "SELECT "
+        "p.uid, "
+        "p.name, "
+        "STRFTIME('%d %H', dt), "
+        "ROUND(AVG(bikes_available_to_rent), 0) "
         "FROM bike_states bs "
         "JOIN places p ON bs.uid = p.uid "
         f"WHERE bs.dt >= '{datetime.datetime.now() - datetime.timedelta(hours=hours)}'"
