@@ -119,10 +119,11 @@ def get_last_successful_run_dt() -> datetime.datetime:
     directory = pathlib.Path(DATA_DIRECTORY)
     files = directory.rglob("*.csv")
 
-    if not files:
+    try:
+        last_timestamp = max(file.stat().st_mtime for file in files)
+    except ValueError:
         return datetime.datetime.min
 
-    last_timestamp = max(file.stat().st_mtime for file in files)
     return datetime.datetime.fromtimestamp(last_timestamp)
 
 
