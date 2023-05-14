@@ -10,6 +10,7 @@ ENCODING = "UTF-8"
 COUNTRY = "cz"
 CITY = "Pardubice"
 URL = f"https://api.nextbike.net/maps/nextbike-official.json?countries={COUNTRY}"
+DATA_DIRECTORY = "data"
 
 
 @dataclasses.dataclass()
@@ -74,7 +75,7 @@ def get_places(data: dict) -> list[Place]:
 
 
 def save_places(places: list[Place]) -> None:
-    path = pathlib.Path("data/places.csv")
+    path = pathlib.Path(DATA_DIRECTORY) / "places.csv"
 
     if not path.parent.exists():
         path.parent.mkdir(parents=True)
@@ -95,7 +96,7 @@ def save_places(places: list[Place]) -> None:
 
 def save_bike_states(places: list[Place]) -> None:
     dt = datetime.datetime.now()
-    path = pathlib.Path(f"data/{dt.year}/{dt:%m}/{dt:%Y-%m-%d}.csv")
+    path = pathlib.Path(DATA_DIRECTORY) / f"{dt.year}/{dt:%m}/{dt:%Y-%m-%d}.csv"
 
     if not path.parent.exists():
         path.parent.mkdir(parents=True)
@@ -114,5 +115,25 @@ def save_bike_states(places: list[Place]) -> None:
     print(f"{count} bike states were saved.")
 
 
+def get_last_successful_run_dt() -> datetime.datetime:
+    directory = pathlib.Path(DATA_DIRECTORY)
+    files = directory.rglob("*.csv")
+    last_timestamp = max(file.stat().st_mtime for file in files)
+    return datetime.datetime.fromtimestamp(last_timestamp)
+
+
 if __name__ == "__main__":
-    main()
+    last_successful_run_dt = get_last_successful_run_dt()
+
+    try:
+        main()
+    except Exception as e:
+        if last_successful_run_dt < datetime.datetime.now() - datetime.timedelta(
+            hours=4
+        ):
+            raise
+
+        print(
+            "The script failed, but the last successful run was less than 4 hours ago."
+        )
+        print(f"Error: {e}")
